@@ -1,0 +1,288 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /studentProfiles:
+    get:
+      summary: List all studentProfiles
+      operationId: listStudentProfiles
+      tags:
+        - studentProfiles
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of studentProfiles
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            $ref: '#/definitions/StudentProfiles'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create a studentProfile
+      operationId: createStudentProfiles
+      tags:
+        - studentProfiles
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /studentProfiles/{studentProfileId}:
+    get:
+      summary: Info for a specific studentProfile
+      operationId: showStudentProfileById
+      tags:
+        - studentProfiles
+      parameters:
+        - name: studentProfileId
+          in: path
+          required: true
+          description: The id of the studentProfile to retrieve
+          type: string
+      responses:
+        "200":
+          description: Expected response to a valid request
+          schema:
+            $ref: '#/definitions/StudentProfiles'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /experiences:
+    get:
+      summary: List all experiences
+      operationId: listExperiences
+      tags:
+        - experiences
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of experiences
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            $ref: '#/definitions/Experiences'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create a experience
+      operationId: createExperiences
+      tags:
+        - experiences
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /experiences/{experienceId}:
+    get:
+      summary: Info for a specific experience
+      operationId: showExperienceById
+      tags:
+        - experiences
+      parameters:
+        - name: experienceId
+          in: path
+          required: true
+          description: The id of the experience to retrieve
+          type: string
+      responses:
+        "200":
+          description: Expected response to a valid request
+          schema:
+            $ref: '#/definitions/Experiences'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /educations:
+    get:
+      summary: List all educations
+      operationId: listEducations
+      tags:
+        - educations
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of educations
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            $ref: '#/definitions/Educations'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create a education
+      operationId: createEducations
+      tags:
+        - educations
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /educations/{educationId}:
+    get:
+      summary: Info for a specific education
+      operationId: showEducationById
+      tags:
+        - educations
+      parameters:
+        - name: educationId
+          in: path
+          required: true
+          description: The id of the education to retrieve
+          type: string
+      responses:
+        "200":
+          description: Expected response to a valid request
+          schema:
+            $ref: '#/definitions/Educations'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  
+
+
+definitions:
+  StudentProfile:
+    type: "object"
+    required:
+      - id
+      - firstName
+      - lastName
+      - email
+      - phoneNumber
+      - imageUrl
+      - bio
+      - interests
+      - skills
+    properties:
+      id:
+        type: int
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phoneNumber:
+        type: string
+      imageUrl:
+        type: string
+      bio:
+        type: string
+      interests:
+        type: string
+      skills:
+        type: string
+  StudentProfiles:
+    type: array
+    items:
+      $ref: '#/definitions/StudentProfile'
+  Experience:
+    type: "object"
+    required:
+      - id
+      - title
+      - company
+      - startDate
+      - endDate
+      - description
+    properties:
+      id:
+        type: int
+      title:
+        type: string
+      company:
+        type: string
+      startDate:
+        type: date
+      endDate:
+        type: date
+      description:
+        type: string
+  Experiences:
+    type: array
+    items:
+      $ref: '#/definitions/Experience'
+  Education:
+    type: "object"
+    required:
+      - id
+      - degree
+      - major
+      - institution
+      - startDate
+      - endDate
+    properties:
+      id:
+        type: int
+      degree:
+        type: string
+      major:
+        type: string
+      institution:
+        type: string
+      startDate:
+        type: date
+      endDate:
+        type: date
+  Educations:
+    type: array
+    items:
+      $ref: '#/definitions/Education'
+
+  Error:
+    type: "object"
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
